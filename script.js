@@ -11,7 +11,7 @@ const downloadPdfBtn = document.getElementById("downloadPdfBtn");
 const pdfFrame = document.getElementById("pdfFrame");
 
 // Change this to your real PDF path:
-const pdfPath = "pdfs/tara-the-brave-turtle.pdf";
+const pdfPath = "tara-the-brave-turtle.pdf";
 
 // Apply the PDF path
 downloadPdfBtn.href = pdfPath;
