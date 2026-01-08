@@ -1,181 +1,310 @@
-<!DOCTYPE html>
+:root {
+  --bg: #0b1020;
+  --panel: rgba(255, 255, 255, 0.1);
+  --panel-strong: rgba(255, 255, 255, 0.14);
+  --text: #f8fafc;
+  --muted: rgba(248, 250, 252, 0.78);
+  --border: rgba(248, 250, 252, 0.15);
+  --brand1: #22c55e;
+  --brand2: #60a5fa;
+  --brand3: #f472b6;
+  --brand4: #fbbf24;
+  --shadow: 0 18px 45px rgba(0,0,0,0.3);
+}
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>One World, Many Stories</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin=""/>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"></head>
-<body>
-<!-- Decorative background blobs -->
-<div aria-hidden="true" class="bg-blob blob-1"></div>
-<div aria-hidden="true" class="bg-blob blob-2"></div>
-<div aria-hidden="true" class="bg-blob blob-3"></div>
-<header class="topbar">
-<div class="brand">
-<span aria-hidden="true" class="logo">🌍</span>
-<span class="brand-text">One World, Many Stories</span>
-</div>
-<nav class="nav">
-<a href="#about">About</a>
-<a href="#impact">Impact</a>
-<a href="#read">Read</a>
-<a href="#contact">Contact</a>
-</nav>
-<button aria-label="Toggle theme" class="theme-btn" id="themeBtn" type="button">
-<span aria-hidden="true" id="themeIcon">🌙</span>
-</button>
-</header>
-<main class="container">
-<!-- HERO -->
-<section class="hero">
-<div class="hero-left">
-<div class="badge">Illustrated stories • Kids-friendly • Social impact</div>
-<h1>Small stories. Big change.</h1>
-<p class="subtitle">
-          “One World, Many Stories” is a creative initiative that uses storytelling and illustration
-          to teach children about caring for the world—through kindness, courage, and community.
-        </p>
-<div class="cta">
-<a class="btn" href="#read">Read the story</a>
-<a class="btn btn-ghost" href="#about">Learn more</a>
-</div>
-<div class="stats">
-<div class="stat">
-<div class="stat-num" id="statStories">1</div>
-<div class="stat-label">Storybook (PDF)</div>
-</div>
-<div class="stat">
-<div class="stat-num">∞</div>
-<div class="stat-label">Kids’ imagination</div>
-</div>
-<div class="stat">
-<div class="stat-num">🌊</div>
-<div class="stat-label">Water awareness</div>
-</div>
-</div>
-</div>
-<div class="hero-right">
-<div class="card">
-<h2 class="card-title">Selected story</h2>
-<p class="card-text">Pick a story from the grid to read it below. You can open it in a new tab or download the PDF.</p>
-<div class="selected-meta">
-<div class="selected-title" id="selectedTitle">The Lotus Garden by the Nile</div>
-<div class="selected-sub" id="selectedSub">English</div>
-</div>
-<div aria-label="Language toggle" class="lang-toggle" id="langToggleHero">
-<button class="chip is-active" data-lang="en" id="heroLangEn" type="button">EN</button>
-<button class="chip" data-lang="ar" id="heroLangAr" type="button">عربي</button>
-</div>
+[data-theme="light"] {
+  --bg: #f6fbff;
+  --panel: rgba(15, 23, 42, 0.06);
+  --panel-strong: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.78);
+  --border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
 
-<div class="pdf-actions">
-<button class="btn btn-small" id="openPdfBtn" type="button">Open in reader</button>
-<a class="btn btn-ghost btn-small" download="" href="The Lotus Garden by The Nile, English Version-.pdf" id="downloadPdfBtn">
-              Download PDF
-            </a>
-</div>
-</div></div></section><section class="section" id="stories">
-<div class="section-head">
-<h2>Stories</h2>
-<p>Select a story to read. Some stories have both English and Arabic versions.</p>
-</div>
-<div aria-label="Story list" class="story-grid" id="storyGrid">
-<!-- JS will render story cards here -->
-</div>
-</section>
-<!-- ABOUT -->
-<section class="section" id="about">
-<div class="section-head">
-<h2>About</h2>
-<p>
-          I create illustrated stories that help children gently understand big ideas—
-          like protecting water, caring for nature, and believing in themselves.
-        </p>
-</div>
-<div class="grid-3">
-<article class="info-card">
-<h3>Mission</h3>
-<p>Use storytelling and illustration to inspire children to protect the world around them.</p>
-</article>
-<article class="info-card">
-<h3>What I make</h3>
-<p>Illustrated storybooks, simple awareness messages, and creative learning visuals.</p>
-</article>
-<article class="info-card">
-<h3>Audience</h3>
-<p>Young children, families, schools, and anyone who loves meaningful stories.</p>
-</article>
-</div>
-</section>
-<!-- IMPACT -->
-<section class="section" id="impact">
-<div class="section-head">
-<h2>Impact</h2>
-<p>
-          This initiative focuses on clear, positive impact—encouraging kids to care, act, and share.
-        </p>
-</div>
-<div class="grid-2">
-<article class="info-card">
-<h3>What this project shows</h3>
-<ul>
-<li>Creativity with purpose (art + awareness)</li>
-<li>Consistent effort (planning, writing, designing)</li>
-<li>Communication skills (kid-friendly messages)</li>
-</ul>
-</article>
-<article class="info-card">
-<h3>Ways to measure impact</h3>
-<ul>
-<li>My stories reached more than 100 kids in libraries, schools, and neighbourhoods </li>
-<li>I made a reading club where we read my stories and discussed our ideas</li>
-<li>I got feedback from kids, teachers, and neighbours saying that the story is visually appealing and encouraged them to take care of environment</li>
-</ul>
-</article>
-</div>
-</section>
-<!-- READER -->
-<section class="section" id="read">
-<div class="section-head">
-<h2>Read</h2>
-<p>Use the controls to switch versions (if available). The PDF opens below.</p>
-</div>
-<div class="reader-shell" id="readerShell">
-<div class="reader-top">
-<div class="reader-title">
-<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-<span class="reader-name">Story Reader</span>
-</div>
-<div class="reader-controls">
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 80% 20%, rgba(96,165,250,0.25), transparent 60%),
+              radial-gradient(900px 600px at 20% 10%, rgba(244,114,182,0.22), transparent 60%),
+              radial-gradient(900px 600px at 30% 80%, rgba(34,197,94,0.18), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
 
-<div aria-label="Language toggle" class="lang-toggle" id="langToggleReader">
-<button class="chip is-active" data-lang="en" id="readerLangEn" type="button">EN</button>
-<button class="chip" data-lang="ar" id="readerLangAr" type="button">عربي</button>
-</div>
-<button class="btn btn-small" id="scrollToReaderBtn" type="button">Focus</button>
-<a class="btn btn-ghost btn-small" href="The Lotus Garden by The Nile, English Version-.pdf" id="openInNewTabLink" rel="noreferrer" target="_blank">
-              Open in new tab
-            </a><a class="btn btn-ghost btn-small" download="" href="The Lotus Garden by The Nile, English Version-.pdf" id="downloadInReaderLink">Download</a>
-</div>
-</div>
-<iframe class="pdf-frame" id="pdfFrame" src="The Lotus Garden by The Nile, English Version-.pdf" title="Story PDF Reader">
-</iframe>
-</div>
-</section>
-<!-- CONTACT -->
-<section class="section" id="contact">
-<div class="section-head">
-<h2>Contact</h2>
-<p>If you’d like to collaborate, share feedback, or support the initiative, reach out.</p>
-</div>
-<div class="contact-row">
-<a class="btn" href="mailto:raghdfarghaly@email.com">Email</a>
-</div>
-</section>
-</main>
-<footer class="footer">
-<small>© <s
+h1, h2, h3 {
+  font-family: "Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  margin: 0 0 10px;
+}
+
+a { color: inherit; text-decoration: none; }
+p { margin: 0 0 14px; color: var(--muted); }
+
+.bg-blob {
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  filter: blur(60px);
+  opacity: 0.25;
+  z-index: -1;
+  border-radius: 999px;
+}
+.blob-1 { left: -180px; top: -200px; background: var(--brand3); }
+.blob-2 { right: -220px; top: 140px; background: var(--brand2); }
+.blob-3 { left: 12%; bottom: -240px; background: var(--brand1); }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(10, 16, 32, 0.55);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="light"] .topbar {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo { font-size: 20px; }
+.brand-text { font-weight: 800; }
+
+.nav { display: flex; gap: 16px; align-items: center; }
+.nav a { color: var(--muted); font-weight: 700; }
+.nav a:hover { color: var(--text); }
+
+.theme-btn {
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 26px 16px 60px; }
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+  margin-top: 10px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(34,197,94,0.22), rgba(244,114,182,0.18));
+  color: var(--text);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+h1 { font-size: 54px; line-height: 1.05; }
+.subtitle { font-size: 18px; max-width: 56ch; }
+
+.cta { display: flex; gap: 12px; margin: 16px 0 14px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(251,191,36,0.95), rgba(244,114,182,0.95));
+  color: #0b1020;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+.btn-small { padding: 9px 12px; font-size: 14px; font-weight: 900; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.stat {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.stat-num { font-size: 22px; font-weight: 900; }
+.stat-label { color: var(--muted); font-weight: 700; }
+
+.card {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.card-title { font-size: 26px; margin-bottom: 8px; }
+.card-text { color: var(--muted); }
+
+.selected-meta { margin: 14px 0 10px; }
+.selected-title { font-weight: 900; font-size: 18px; }
+.selected-sub { color: var(--muted); font-weight: 800; margin-top: 3px; }
+
+.lang-toggle { display: inline-flex; gap: 8px; margin: 10px 0 12px; }
+.chip {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-weight: 900;
+  border-radius: 10px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.chip.is-active {
+  background: var(--panel-strong);
+}
+
+.pdf-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+
+.section { margin-top: 22px; }
+.section-head {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.story-card {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.story-card:hover { transform: translateY(-1px); }
+.story-card.is-active { background: var(--panel-strong); }
+
+.story-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.story-title { font-weight: 900; font-size: 18px; margin: 0; color: var(--text); }
+.story-tag {
+  font-size: 12px; font-weight: 900;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.story-desc { margin-top: 8px; color: var(--muted); }
+.pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.pill {
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+.info-card {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+
+.info-card ul { margin: 10px 0 0; padding-left: 18px; }
+.info-card li { margin: 6px 0; color: var(--muted); font-weight: 700; }
+
+.reader-shell {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.reader-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.reader-title { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; }
+.dot { width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.35); }
+
+.reader-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+.pdf-frame {
+  width: 100%;
+  height: 720px;
+  border: 0;
+  background: rgba(0,0,0,0.08);
+}
+
+.contact-row { display: flex; gap: 10px; }
+
+.footer {
+  padding: 26px 16px 40px;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: rgba(10, 16, 32, 0.25);
+}
+
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; }
+  h1 { font-size: 44px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .story-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  h1 { font-size: 38px; }
+  .nav { display: none; }
+}
