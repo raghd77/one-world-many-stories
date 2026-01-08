@@ -1,19 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>One World, Many Stories</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- CSS (cache-busted) -->
+    <!-- IMPORTANT: cache-bust -->
     <link rel="stylesheet" href="./style.css?v=10" />
   </head>
 
@@ -46,14 +46,16 @@
       <section class="hero">
         <div class="hero-left">
           <div class="badge">Illustrated stories • Kids-friendly • Social impact</div>
+
           <h1>Small stories. Big change.</h1>
+
           <p class="subtitle">
-            “One World, Many Stories” is a creative initiative that uses storytelling and illustration to
-            teach children about caring for the world—through kindness, courage, and community.
+            “One World, Many Stories” is a creative initiative that uses storytelling and illustration
+            to teach children about caring for the world—through kindness, courage, and community.
           </p>
 
           <div class="cta">
-            <a class="btn" href="#stories">Read the story</a>
+            <a class="btn" href="#read">Read the story</a>
             <a class="btn btn-ghost" href="#about">Learn more</a>
           </div>
 
@@ -92,7 +94,9 @@
 
             <div class="pdf-actions">
               <button class="btn btn-small" id="openPdfBtn" type="button">Open in reader</button>
-              <a class="btn btn-ghost btn-small" download id="downloadPdfBtn" href="#">Download PDF</a>
+              <a class="btn btn-ghost btn-small" download="" href="./lotus_en.pdf" id="downloadPdfBtn">
+                Download PDF
+              </a>
             </div>
           </div>
         </div>
@@ -123,12 +127,10 @@
             <h3>Mission</h3>
             <p>Use storytelling and illustration to inspire children to protect the world around them.</p>
           </article>
-
           <article class="info-card">
             <h3>What I make</h3>
             <p>Illustrated storybooks, simple awareness messages, and creative learning visuals.</p>
           </article>
-
           <article class="info-card">
             <h3>Audience</h3>
             <p>Young children, families, schools, and anyone who loves meaningful stories.</p>
@@ -156,9 +158,9 @@
           <article class="info-card">
             <h3>Ways to measure impact</h3>
             <ul>
-              <li>My stories reached more than 100 kids in libraries, schools, and neighbourhoods.</li>
-              <li>I made a reading club where we read my stories and discussed our ideas.</li>
-              <li>I got feedback from kids, teachers, and neighbours that the stories encouraged caring for the environment.</li>
+              <li>Stories shared with kids in schools and communities</li>
+              <li>Reading club sessions to discuss themes and ideas</li>
+              <li>Feedback from kids, teachers, and neighbours</li>
             </ul>
           </article>
         </div>
@@ -175,28 +177,28 @@
           <div class="reader-top">
             <div class="reader-title">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span id="readerTitleText">Story Reader</span>
-            </div>
-
-            <div class="reader-controls">
-              <div aria-label="Language toggle" class="lang-toggle" id="langToggleReader">
-                <button class="chip is-active" data-lang="en" id="readerLangEn" type="button">EN</button>
-                <button class="chip" data-lang="ar" id="readerLangAr" type="button">عربي</button>
-              </div>
-
-              <button class="btn btn-small" id="scrollToReaderBtn" type="button">Focus</button>
-
-              <a class="btn btn-ghost btn-small" id="openInNewTabLink" rel="noreferrer" target="_blank" href="#">
-                Open in new tab
-              </a>
-
-              <a class="btn btn-ghost btn-small" download id="downloadInReaderLink" href="#">
-                Download
-              </a>
+              <span id="readerTitleText">The Lotus Garden by the Nile</span>
             </div>
           </div>
 
-          <iframe class="pdf-frame" id="pdfFrame" title="Story PDF Reader"></iframe>
+          <div class="reader-controls">
+            <div aria-label="Language toggle" class="lang-toggle" id="langToggleReader">
+              <button class="chip is-active" data-lang="en" id="readerLangEn" type="button">EN</button>
+              <button class="chip" data-lang="ar" id="readerLangAr" type="button">عربي</button>
+            </div>
+
+            <button class="btn btn-small" id="scrollToReaderBtn" type="button">Focus</button>
+
+            <a class="btn btn-ghost btn-small" href="./lotus_en.pdf" id="openInNewTabLink" rel="noreferrer" target="_blank">
+              Open in new tab
+            </a>
+
+            <a class="btn btn-ghost btn-small" download="" href="./lotus_en.pdf" id="downloadInReaderLink">
+              Download
+            </a>
+          </div>
+
+          <iframe class="pdf-frame" id="pdfFrame" src="./lotus_en.pdf" title="Story PDF Reader"></iframe>
         </div>
       </section>
 
@@ -214,10 +216,10 @@
     </main>
 
     <footer class="footer">
-      <small>© One World, Many Stories</small>
+      <small>© <span id="year"></span> One World, Many Stories</small>
     </footer>
 
-    <!-- JS (cache-busted) -->
-    <script src="./script.js?v=10" defer></script>
+    <!-- IMPORTANT: cache-bust -->
+    <script src="./script.js?v=10"></script>
   </body>
 </html>
