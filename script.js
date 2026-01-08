@@ -1,223 +1,234 @@
-/* One World, Many Stories - Stories Grid + Reader
-   Filenames MUST match repo:
-   - lotus_en.pdf
-   - lotus_ar.pdf
-   - tara-the-brave-turtle.pdf
-*/
+(() => {
+  "use strict";
 
-const heroLangEn = document.getElementById("heroLangEn");
-const heroLangAr = document.getElementById("heroLangAr");
-const readerLangEn = document.getElementById("readerLangEn");
-const readerLangAr = document.getElementById("readerLangAr");
+  const $ = (id) => document.getElementById(id);
 
-const storyGrid = document.getElementById("storyGrid");
+  // Elements
+  const storyGrid = $("storyGrid");
 
-const selectedTitle = document.getElementById("selectedTitle");
-const selectedSub = document.getElementById("selectedSub");
+  const selectedTitle = $("selectedTitle");
+  const selectedSub = $("selectedSub");
 
-const openPdfBtn = document.getElementById("openPdfBtn");
-const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+  const heroLangEn = $("heroLangEn");
+  const heroLangAr = $("heroLangAr");
 
-const pdfFrame = document.getElementById("pdfFrame");
-const openInNewTabLink = document.getElementById("openInNewTabLink");
-const downloadInReaderLink = document.getElementById("downloadInReaderLink");
-const scrollToReaderBtn = document.getElementById("scrollToReaderBtn");
+  const openPdfBtn = $("openPdfBtn");
+  const downloadPdfBtn = $("downloadPdfBtn");
 
-const themeBtn = document.getElementById("themeBtn");
-const themeIcon = document.getElementById("themeIcon");
+  const readerTitleText = $("readerTitleText");
+  const pdfFrame = $("pdfFrame");
 
-const STORIES = [
-  {
-    id: "lotus",
-    title: "The Lotus Garden by the Nile",
-    desc: "A gentle story about growing in your own way — and how one brave flower can inspire everyone.",
-    tag: "EN + AR",
-    hasArabic: true,
-    pills: ["Nature", "Self-belief", "Kindness"],
-    files: {
-      en: "lotus_en.pdf",
-      ar: "lotus_ar.pdf"
+  const readerLangEn = $("readerLangEn");
+  const readerLangAr = $("readerLangAr");
+
+  const openInNewTabLink = $("openInNewTabLink");
+  const downloadInReaderLink = $("downloadInReaderLink");
+  const scrollToReaderBtn = $("scrollToReaderBtn");
+
+  const themeBtn = $("themeBtn");
+  const themeIcon = $("themeIcon");
+
+  const yearEl = $("year");
+
+  // Data (make sure these filenames exist in your repo root)
+  const STORIES = [
+    {
+      id: "lotus",
+      title: "The Lotus Garden by the Nile",
+      desc: "A gentle story about growing in your own way — and how one brave flower can inspire everyone.",
+      tag: "EN + AR",
+      hasArabic: true,
+      pills: ["Nature", "Self-belief", "Kindness"],
+      files: {
+        en: "./lotus_en.pdf",
+        ar: "./lotus_ar.pdf",
+      },
+    },
+    {
+      id: "tara",
+      title: "Tara the Brave Turtle",
+      desc: "A kids-friendly story about courage, trying again, and showing up even when you’re scared.",
+      tag: "EN",
+      hasArabic: false,
+      pills: ["Courage", "Growth", "Kids"],
+      files: {
+        en: "./tara-the-brave-turtle.pdf",
+      },
+    },
+  ];
+
+  // State
+  let selectedStoryId = "lotus";
+  let selectedLang = "en"; // "en" or "ar"
+
+  function getSelectedStory() {
+    return STORIES.find((s) => s.id === selectedStoryId) || STORIES[0];
+  }
+
+  function setActiveChip(group, lang) {
+    const isHero = group === "hero";
+    const enBtn = isHero ? heroLangEn : readerLangEn;
+    const arBtn = isHero ? heroLangAr : readerLangAr;
+
+    enBtn.classList.toggle("is-active", lang === "en");
+    arBtn.classList.toggle("is-active", lang === "ar");
+  }
+
+  function applyLangAvailability(story) {
+    // Enable/disable Arabic buttons depending on story
+    const hasAr = !!story.hasArabic;
+
+    heroLangAr.disabled = !hasAr;
+    readerLangAr.disabled = !hasAr;
+
+    // If story has no Arabic and user was on Arabic, force EN
+    if (!hasAr && selectedLang === "ar") {
+      selectedLang = "en";
     }
-  },
-  {
-    id: "tara",
-    title: "Tara the Brave Turtle",
-    desc: "A kids-friendly story about courage, trying again, and showing up even when you’re scared.",
-    tag: "EN",
-    hasArabic: false,
-    pills: ["Courage", "Growth", "Kids"],
-    files: {
-      en: "tara-the-brave-turtle.pdf"
-    }
-  }
-];
 
-let selectedStoryId = "lotus";
-let lang = "en"; // en | ar
-
-function setTheme(next) {
-  if (next === "light") {
-    document.documentElement.setAttribute("data-theme", "light");
-    themeIcon.textContent = "☀️";
-    localStorage.setItem("owms-theme", "light");
-  } else {
-    document.documentElement.removeAttribute("data-theme");
-    themeIcon.textContent = "🌙";
-    localStorage.setItem("owms-theme", "dark");
-  }
-}
-
-function initTheme() {
-  const saved = localStorage.getItem("owms-theme");
-  if (saved === "light") setTheme("light");
-  else setTheme("dark");
-}
-
-function getStoryById(id) {
-  return STORIES.find((s) => s.id === id) || STORIES[0];
-}
-
-function getActiveFile(story) {
-  if (lang === "ar" && story.hasArabic && story.files.ar) return story.files.ar;
-  return story.files.en;
-}
-
-function updateLangButtons(story) {
-  // Hero chips
-  heroLangEn.classList.toggle("is-active", lang === "en");
-  heroLangAr.classList.toggle("is-active", lang === "ar");
-
-  // Reader chips
-  readerLangEn.classList.toggle("is-active", lang === "en");
-  readerLangAr.classList.toggle("is-active", lang === "ar");
-
-  // Disable Arabic if story doesn't have it
-  const arDisabled = !(story.hasArabic && story.files.ar);
-  heroLangAr.disabled = arDisabled;
-  readerLangAr.disabled = arDisabled;
-
-  heroLangAr.style.opacity = arDisabled ? "0.5" : "1";
-  readerLangAr.style.opacity = arDisabled ? "0.5" : "1";
-}
-
-function updateSelectedUI() {
-  const story = getStoryById(selectedStoryId);
-
-  // if story doesn't support Arabic but we are on ar, switch back to en
-  if (lang === "ar" && !(story.hasArabic && story.files.ar)) {
-    lang = "en";
+    // Update chip state
+    setActiveChip("hero", selectedLang);
+    setActiveChip("reader", selectedLang);
   }
 
-  const file = getActiveFile(story);
+  function currentPdfUrl(story) {
+    if (selectedLang === "ar" && story.hasArabic) return story.files.ar;
+    return story.files.en;
+  }
 
-  selectedTitle.textContent = story.title;
-  selectedSub.textContent = lang === "ar" ? "Arabic" : "English";
+  function updateSelectedUI() {
+    const story = getSelectedStory();
+    applyLangAvailability(story);
 
-  // Buttons
-  openPdfBtn.onclick = () => {
-    document.getElementById("read").scrollIntoView({ behavior: "smooth", block: "start" });
-    // Small delay so scroll feels natural
-    setTimeout(() => {
-      pdfFrame.focus();
-    }, 300);
-  };
+    const pdfUrl = currentPdfUrl(story);
 
-  downloadPdfBtn.href = file;
-  downloadPdfBtn.setAttribute("download", file);
+    selectedTitle.textContent = story.title;
+    selectedSub.textContent = selectedLang === "ar" ? "Arabic" : "English";
 
-  // Reader links + iframe
-  openInNewTabLink.href = file;
-  downloadInReaderLink.href = file;
-  downloadInReaderLink.setAttribute("download", file);
-  pdfFrame.src = file;
+    // Hero download button
+    downloadPdfBtn.href = pdfUrl;
+    downloadPdfBtn.setAttribute("download", "");
 
-  updateLangButtons(story);
+    // Reader
+    readerTitleText.textContent = story.title;
 
-  // highlight active card
-  document.querySelectorAll(".story-card").forEach((el) => {
-    el.classList.toggle("is-active", el.dataset.id === selectedStoryId);
-  });
-}
+    openInNewTabLink.href = pdfUrl;
+    downloadInReaderLink.href = pdfUrl;
+    downloadInReaderLink.setAttribute("download", "");
 
-function renderGrid() {
-  storyGrid.innerHTML = "";
+    pdfFrame.src = pdfUrl;
+  }
 
-  STORIES.forEach((s) => {
-    const card = document.createElement("article");
-    card.className = "story-card";
-    card.dataset.id = s.id;
+  function renderStories() {
+    storyGrid.innerHTML = "";
 
-    const top = document.createElement("div");
-    top.className = "story-top";
+    STORIES.forEach((story) => {
+      const card = document.createElement("div");
+      card.className = "story-card" + (story.id === selectedStoryId ? " is-selected" : "");
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
 
-    const title = document.createElement("h3");
-    title.className = "story-title";
-    title.textContent = s.title;
+      const pillsHtml = story.pills
+        .map((p) => `<span class="pill">${p}</span>`)
+        .join("");
 
-    const tag = document.createElement("span");
-    tag.className = "story-tag";
-    tag.textContent = s.tag;
+      card.innerHTML = `
+        <div class="story-top">
+          <div class="story-title">${story.title}</div>
+          <div class="story-tag">${story.tag}</div>
+        </div>
+        <div class="story-desc">${story.desc}</div>
+        <div class="pills">${pillsHtml}</div>
+      `;
 
-    top.appendChild(title);
-    top.appendChild(tag);
+      const selectStory = () => {
+        selectedStoryId = story.id;
+        // keep language if possible; updateSelectedUI will force EN when needed
+        renderStories();
+        updateSelectedUI();
+      };
 
-    const desc = document.createElement("p");
-    desc.className = "story-desc";
-    desc.textContent = s.desc;
+      card.addEventListener("click", selectStory);
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectStory();
+        }
+      });
 
-    const pills = document.createElement("div");
-    pills.className = "pills";
-    s.pills.forEach((p) => {
-      const pill = document.createElement("span");
-      pill.className = "pill";
-      pill.textContent = p;
-      pills.appendChild(pill);
+      storyGrid.appendChild(card);
     });
+  }
 
-    card.appendChild(top);
-    card.appendChild(desc);
-    card.appendChild(pills);
+  function scrollToReader() {
+    const el = $("read");
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
-    card.addEventListener("click", () => {
-      selectedStoryId = s.id;
+  function initTheme() {
+    // simple: toggles a "light" class (optional future use)
+    const saved = localStorage.getItem("owms-theme") || "dark";
+    document.documentElement.dataset.theme = saved;
+    themeIcon.textContent = saved === "dark" ? "🌙" : "☀️";
+
+    themeBtn.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("owms-theme", next);
+      themeIcon.textContent = next === "dark" ? "🌙" : "☀️";
+    });
+  }
+
+  function bindEvents() {
+    // Hero language
+    heroLangEn.addEventListener("click", () => {
+      selectedLang = "en";
       updateSelectedUI();
-      // Move user to selected story panel area (nice UX)
-      document.querySelector(".hero-right").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    heroLangAr.addEventListener("click", () => {
+      const story = getSelectedStory();
+      if (!story.hasArabic) return;
+      selectedLang = "ar";
+      updateSelectedUI();
     });
 
-    storyGrid.appendChild(card);
-  });
-}
+    // Reader language
+    readerLangEn.addEventListener("click", () => {
+      selectedLang = "en";
+      updateSelectedUI();
+    });
+    readerLangAr.addEventListener("click", () => {
+      const story = getSelectedStory();
+      if (!story.hasArabic) return;
+      selectedLang = "ar";
+      updateSelectedUI();
+    });
 
-function hookLanguageEvents() {
-  const setLang = (next) => {
-    lang = next;
+    // Open in reader from hero
+    openPdfBtn.addEventListener("click", () => {
+      scrollToReader();
+    });
+
+    scrollToReaderBtn.addEventListener("click", () => {
+      const frame = $("pdfFrame");
+      frame?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+
+  function boot() {
+    yearEl.textContent = new Date().getFullYear();
+
+    initTheme();
+    renderStories();
+    bindEvents();
     updateSelectedUI();
-  };
+  }
 
-  heroLangEn.addEventListener("click", () => setLang("en"));
-  heroLangAr.addEventListener("click", () => setLang("ar"));
-  readerLangEn.addEventListener("click", () => setLang("en"));
-  readerLangAr.addEventListener("click", () => setLang("ar"));
-
-  scrollToReaderBtn.addEventListener("click", () => {
-    document.getElementById("read").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
-
-function hookTheme() {
-  themeBtn.addEventListener("click", () => {
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    setTheme(isLight ? "dark" : "light");
-  });
-}
-
-function init() {
-  initTheme();
-  hookTheme();
-  renderGrid();
-  hookLanguageEvents();
-  updateSelectedUI();
-}
-
-document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
