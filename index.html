@@ -1,181 +1,223 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>One World, Many Stories</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin=""/>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"></head>
-<body>
-<!-- Decorative background blobs -->
-<div aria-hidden="true" class="bg-blob blob-1"></div>
-<div aria-hidden="true" class="bg-blob blob-2"></div>
-<div aria-hidden="true" class="bg-blob blob-3"></div>
-<header class="topbar">
-<div class="brand">
-<span aria-hidden="true" class="logo">🌍</span>
-<span class="brand-text">One World, Many Stories</span>
-</div>
-<nav class="nav">
-<a href="#about">About</a>
-<a href="#impact">Impact</a>
-<a href="#read">Read</a>
-<a href="#contact">Contact</a>
-</nav>
-<button aria-label="Toggle theme" class="theme-btn" id="themeBtn" type="button">
-<span aria-hidden="true" id="themeIcon">🌙</span>
-</button>
-</header>
-<main class="container">
-<!-- HERO -->
-<section class="hero">
-<div class="hero-left">
-<div class="badge">Illustrated stories • Kids-friendly • Social impact</div>
-<h1>Small stories. Big change.</h1>
-<p class="subtitle">
-          “One World, Many Stories” is a creative initiative that uses storytelling and illustration
-          to teach children about caring for the world—through kindness, courage, and community.
-        </p>
-<div class="cta">
-<a class="btn" href="#read">Read the story</a>
-<a class="btn btn-ghost" href="#about">Learn more</a>
-</div>
-<div class="stats">
-<div class="stat">
-<div class="stat-num" id="statStories">1</div>
-<div class="stat-label">Storybook (PDF)</div>
-</div>
-<div class="stat">
-<div class="stat-num">∞</div>
-<div class="stat-label">Kids’ imagination</div>
-</div>
-<div class="stat">
-<div class="stat-num">🌊</div>
-<div class="stat-label">Water awareness</div>
-</div>
-</div>
-</div>
-<div class="hero-right">
-<div class="card">
-<h2 class="card-title">Selected story</h2>
-<p class="card-text">Pick a story from the grid to read it below. You can open it in a new tab or download the PDF.</p>
-<div class="selected-meta">
-<div class="selected-title" id="selectedTitle">The Lotus Garden by the Nile</div>
-<div class="selected-sub" id="selectedSub">English</div>
-</div>
-<div aria-label="Language toggle" class="lang-toggle" id="langToggleHero">
-<button class="chip is-active" data-lang="en" id="heroLangEn" type="button">EN</button>
-<button class="chip" data-lang="ar" id="heroLangAr" type="button">عربي</button>
-</div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>One World, Many Stories</title>
 
-<div class="pdf-actions">
-<button class="btn btn-small" id="openPdfBtn" type="button">Open in reader</button>
-<a class="btn btn-ghost btn-small" download="" href="The Lotus Garden by The Nile, English Version-.pdf" id="downloadPdfBtn">
-              Download PDF
-            </a>
-</div>
-</div></div></section><section class="section" id="stories">
-<div class="section-head">
-<h2>Stories</h2>
-<p>Select a story to read. Some stories have both English and Arabic versions.</p>
-</div>
-<div aria-label="Story list" class="story-grid" id="storyGrid">
-<!-- JS will render story cards here -->
-</div>
-</section>
-<!-- ABOUT -->
-<section class="section" id="about">
-<div class="section-head">
-<h2>About</h2>
-<p>
-          I create illustrated stories that help children gently understand big ideas—
-          like protecting water, caring for nature, and believing in themselves.
-        </p>
-</div>
-<div class="grid-3">
-<article class="info-card">
-<h3>Mission</h3>
-<p>Use storytelling and illustration to inspire children to protect the world around them.</p>
-</article>
-<article class="info-card">
-<h3>What I make</h3>
-<p>Illustrated storybooks, simple awareness messages, and creative learning visuals.</p>
-</article>
-<article class="info-card">
-<h3>Audience</h3>
-<p>Young children, families, schools, and anyone who loves meaningful stories.</p>
-</article>
-</div>
-</section>
-<!-- IMPACT -->
-<section class="section" id="impact">
-<div class="section-head">
-<h2>Impact</h2>
-<p>
-          This initiative focuses on clear, positive impact—encouraging kids to care, act, and share.
-        </p>
-</div>
-<div class="grid-2">
-<article class="info-card">
-<h3>What this project shows</h3>
-<ul>
-<li>Creativity with purpose (art + awareness)</li>
-<li>Consistent effort (planning, writing, designing)</li>
-<li>Communication skills (kid-friendly messages)</li>
-</ul>
-</article>
-<article class="info-card">
-<h3>Ways to measure impact</h3>
-<ul>
-<li>My stories reached more than 100 kids in libraries, schools, and neighbourhoods </li>
-<li>I made a reading club where we read my stories and discussed our ideas</li>
-<li>I got feedback from kids, teachers, and neighbours saying that the story is visually appealing and encouraged them to take care of environment</li>
-</ul>
-</article>
-</div>
-</section>
-<!-- READER -->
-<section class="section" id="read">
-<div class="section-head">
-<h2>Read</h2>
-<p>Use the controls to switch versions (if available). The PDF opens below.</p>
-</div>
-<div class="reader-shell" id="readerShell">
-<div class="reader-top">
-<div class="reader-title">
-<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-<span class="reader-name">Story Reader</span>
-</div>
-<div class="reader-controls">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-<div aria-label="Language toggle" class="lang-toggle" id="langToggleReader">
-<button class="chip is-active" data-lang="en" id="readerLangEn" type="button">EN</button>
-<button class="chip" data-lang="ar" id="readerLangAr" type="button">عربي</button>
-</div>
-<button class="btn btn-small" id="scrollToReaderBtn" type="button">Focus</button>
-<a class="btn btn-ghost btn-small" href="The Lotus Garden by The Nile, English Version-.pdf" id="openInNewTabLink" rel="noreferrer" target="_blank">
-              Open in new tab
-            </a><a class="btn btn-ghost btn-small" download="" href="The Lotus Garden by The Nile, English Version-.pdf" id="downloadInReaderLink">Download</a>
-</div>
-</div>
-<iframe class="pdf-frame" id="pdfFrame" src="The Lotus Garden by The Nile, English Version-.pdf" title="Story PDF Reader">
-</iframe>
-</div>
-</section>
-<!-- CONTACT -->
-<section class="section" id="contact">
-<div class="section-head">
-<h2>Contact</h2>
-<p>If you’d like to collaborate, share feedback, or support the initiative, reach out.</p>
-</div>
-<div class="contact-row">
-<a class="btn" href="mailto:raghdfarghaly@email.com">Email</a>
-</div>
-</section>
-</main>
-<footer class="footer">
-<small>© <s
+    <!-- CSS (cache-busted) -->
+    <link rel="stylesheet" href="./style.css?v=10" />
+  </head>
+
+  <body>
+    <!-- Decorative background blobs -->
+    <div class="bg-blob blob-1" aria-hidden="true"></div>
+    <div class="bg-blob blob-2" aria-hidden="true"></div>
+    <div class="bg-blob blob-3" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span aria-hidden="true" class="logo">🌍</span>
+        <span class="brand-text">One World, Many Stories</span>
+      </div>
+
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#impact">Impact</a>
+        <a href="#read">Read</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button aria-label="Toggle theme" class="theme-btn" id="themeBtn" type="button">
+        <span aria-hidden="true" id="themeIcon">🌙</span>
+      </button>
+    </header>
+
+    <main class="container">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left">
+          <div class="badge">Illustrated stories • Kids-friendly • Social impact</div>
+          <h1>Small stories. Big change.</h1>
+          <p class="subtitle">
+            “One World, Many Stories” is a creative initiative that uses storytelling and illustration to
+            teach children about caring for the world—through kindness, courage, and community.
+          </p>
+
+          <div class="cta">
+            <a class="btn" href="#stories">Read the story</a>
+            <a class="btn btn-ghost" href="#about">Learn more</a>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-num" id="statStories">2</div>
+              <div class="stat-label">Storybooks (PDF)</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">∞</div>
+              <div class="stat-label">Kids’ imagination</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">🌊</div>
+              <div class="stat-label">Water awareness</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="card">
+            <h2 class="card-title">Selected story</h2>
+            <p class="card-text">
+              Pick a story from the grid to read it below. You can open it in a new tab or download the PDF.
+            </p>
+
+            <div class="selected-meta">
+              <div class="selected-title" id="selectedTitle">The Lotus Garden by the Nile</div>
+              <div class="selected-sub" id="selectedSub">English</div>
+            </div>
+
+            <div aria-label="Language toggle" class="lang-toggle" id="langToggleHero">
+              <button class="chip is-active" data-lang="en" id="heroLangEn" type="button">EN</button>
+              <button class="chip" data-lang="ar" id="heroLangAr" type="button">عربي</button>
+            </div>
+
+            <div class="pdf-actions">
+              <button class="btn btn-small" id="openPdfBtn" type="button">Open in reader</button>
+              <a class="btn btn-ghost btn-small" download id="downloadPdfBtn" href="#">Download PDF</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STORIES GRID -->
+      <section class="section" id="stories">
+        <div class="section-head">
+          <h2>Stories</h2>
+          <p>Select a story to read. Some stories have both English and Arabic versions.</p>
+        </div>
+
+        <div aria-label="Story list" class="story-grid" id="storyGrid"></div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section" id="about">
+        <div class="section-head">
+          <h2>About</h2>
+          <p>
+            I create illustrated stories that help children gently understand big ideas—
+            like protecting water, caring for nature, and believing in themselves.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="info-card">
+            <h3>Mission</h3>
+            <p>Use storytelling and illustration to inspire children to protect the world around them.</p>
+          </article>
+
+          <article class="info-card">
+            <h3>What I make</h3>
+            <p>Illustrated storybooks, simple awareness messages, and creative learning visuals.</p>
+          </article>
+
+          <article class="info-card">
+            <h3>Audience</h3>
+            <p>Young children, families, schools, and anyone who loves meaningful stories.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- IMPACT -->
+      <section class="section" id="impact">
+        <div class="section-head">
+          <h2>Impact</h2>
+          <p>This initiative focuses on clear, positive impact—encouraging kids to care, act, and share.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="info-card">
+            <h3>What this project shows</h3>
+            <ul>
+              <li>Creativity with purpose (art + awareness)</li>
+              <li>Consistent effort (planning, writing, designing)</li>
+              <li>Communication skills (kid-friendly messages)</li>
+            </ul>
+          </article>
+
+          <article class="info-card">
+            <h3>Ways to measure impact</h3>
+            <ul>
+              <li>My stories reached more than 100 kids in libraries, schools, and neighbourhoods.</li>
+              <li>I made a reading club where we read my stories and discussed our ideas.</li>
+              <li>I got feedback from kids, teachers, and neighbours that the stories encouraged caring for the environment.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- READER -->
+      <section class="section" id="read">
+        <div class="section-head">
+          <h2>Read</h2>
+          <p>Use the controls to switch versions (if available). The PDF opens below.</p>
+        </div>
+
+        <div class="reader-shell" id="readerShell">
+          <div class="reader-top">
+            <div class="reader-title">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span id="readerTitleText">Story Reader</span>
+            </div>
+
+            <div class="reader-controls">
+              <div aria-label="Language toggle" class="lang-toggle" id="langToggleReader">
+                <button class="chip is-active" data-lang="en" id="readerLangEn" type="button">EN</button>
+                <button class="chip" data-lang="ar" id="readerLangAr" type="button">عربي</button>
+              </div>
+
+              <button class="btn btn-small" id="scrollToReaderBtn" type="button">Focus</button>
+
+              <a class="btn btn-ghost btn-small" id="openInNewTabLink" rel="noreferrer" target="_blank" href="#">
+                Open in new tab
+              </a>
+
+              <a class="btn btn-ghost btn-small" download id="downloadInReaderLink" href="#">
+                Download
+              </a>
+            </div>
+          </div>
+
+          <iframe class="pdf-frame" id="pdfFrame" title="Story PDF Reader"></iframe>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="section-head">
+          <h2>Contact</h2>
+          <p>If you’d like to collaborate, share feedback, or support the initiative, reach out.</p>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn" href="mailto:raghdfarghaly@email.com">Email</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>© One World, Many Stories</small>
+    </footer>
+
+    <!-- JS (cache-busted) -->
+    <script src="./script.js?v=10" defer></script>
+  </body>
+</html>
