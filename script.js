@@ -45,8 +45,8 @@ const STORIES = [
     hasArabic: true,
     pills: ["Nature", "Self-belief", "Kindness"],
     files: {
-      en: "The Lotus Garden by The Nile, English Version-.pdf",
-      ar: "The_Lotus_Garden_arabic.pdf",
+      en: "lotus_en.pdf",
+      ar: "lotus_ar.pdf"
     },
   },
   {
