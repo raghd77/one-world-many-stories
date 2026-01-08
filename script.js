@@ -1,41 +1,31 @@
-/// One World, Many Stories — multi-story grid + bilingual toggle (Lotus)
-// Files expected in repo root:
-// - tara-the-brave-turtle.pdf
-// - The Lotus Garden by The Nile, English Version-.pdf
-// - The_Lotus_Garden_arabic.pdf
+/* One World, Many Stories - Stories Grid + Reader
+   Filenames MUST match repo:
+   - lotus_en.pdf
+   - lotus_ar.pdf
+   - tara-the-brave-turtle.pdf
+*/
 
-// Helpers
-const $ = (sel) => document.querySelector(sel);
-const yearEl = $("#year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-// Elements
-const storyGrid = document.getElementById("storyGrid");
-const statStories = document.getElementById("statStories");
-
-// Selected story (hero card)
-const selectedTitleEl = document.getElementById("selectedTitle");
-const selectedSubEl = document.getElementById("selectedSub");
-const openPdfBtn = document.getElementById("openPdfBtn");
-const downloadPdfBtn = document.getElementById("downloadPdfBtn");
-
-// Reader
-const pdfFrame = document.getElementById("pdfFrame");
-const openInNewTabLink = document.getElementById("openInNewTabLink");
-const downloadInReaderLink = document.getElementById("downloadInReaderLink");
-const scrollToReaderBtn = document.getElementById("scrollToReaderBtn");
-
-// Language toggles
 const heroLangEn = document.getElementById("heroLangEn");
 const heroLangAr = document.getElementById("heroLangAr");
 const readerLangEn = document.getElementById("readerLangEn");
 const readerLangAr = document.getElementById("readerLangAr");
 
-// Theme
+const storyGrid = document.getElementById("storyGrid");
+
+const selectedTitle = document.getElementById("selectedTitle");
+const selectedSub = document.getElementById("selectedSub");
+
+const openPdfBtn = document.getElementById("openPdfBtn");
+const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+
+const pdfFrame = document.getElementById("pdfFrame");
+const openInNewTabLink = document.getElementById("openInNewTabLink");
+const downloadInReaderLink = document.getElementById("downloadInReaderLink");
+const scrollToReaderBtn = document.getElementById("scrollToReaderBtn");
+
 const themeBtn = document.getElementById("themeBtn");
 const themeIcon = document.getElementById("themeIcon");
 
-// Data
 const STORIES = [
   {
     id: "lotus",
@@ -47,7 +37,7 @@ const STORIES = [
     files: {
       en: "lotus_en.pdf",
       ar: "lotus_ar.pdf"
-    },
+    }
   },
   {
     id: "tara",
@@ -57,175 +47,177 @@ const STORIES = [
     hasArabic: false,
     pills: ["Courage", "Growth", "Kids"],
     files: {
-      en: "tara-the-brave-turtle.pdf",
-      ar: null,
-    },
-  },
+      en: "tara-the-brave-turtle.pdf"
+    }
+  }
 ];
 
-// State (persisted)
-const savedTheme = localStorage.getItem("owms_theme");
-const savedStoryId = localStorage.getItem("owms_story") || "lotus";
-const savedLang = localStorage.getItem("owms_lang") || "en";
+let selectedStoryId = "lotus";
+let lang = "en"; // en | ar
 
-let currentStory = STORIES.find((s) => s.id === savedStoryId) || STORIES[0];
-let currentLang = savedLang;
+function setTheme(next) {
+  if (next === "light") {
+    document.documentElement.setAttribute("data-theme", "light");
+    themeIcon.textContent = "☀️";
+    localStorage.setItem("owms-theme", "light");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+    themeIcon.textContent = "🌙";
+    localStorage.setItem("owms-theme", "dark");
+  }
+}
 
-// Render story grid
-function renderStories() {
-  if (!storyGrid) return;
+function initTheme() {
+  const saved = localStorage.getItem("owms-theme");
+  if (saved === "light") setTheme("light");
+  else setTheme("dark");
+}
 
+function getStoryById(id) {
+  return STORIES.find((s) => s.id === id) || STORIES[0];
+}
+
+function getActiveFile(story) {
+  if (lang === "ar" && story.hasArabic && story.files.ar) return story.files.ar;
+  return story.files.en;
+}
+
+function updateLangButtons(story) {
+  // Hero chips
+  heroLangEn.classList.toggle("is-active", lang === "en");
+  heroLangAr.classList.toggle("is-active", lang === "ar");
+
+  // Reader chips
+  readerLangEn.classList.toggle("is-active", lang === "en");
+  readerLangAr.classList.toggle("is-active", lang === "ar");
+
+  // Disable Arabic if story doesn't have it
+  const arDisabled = !(story.hasArabic && story.files.ar);
+  heroLangAr.disabled = arDisabled;
+  readerLangAr.disabled = arDisabled;
+
+  heroLangAr.style.opacity = arDisabled ? "0.5" : "1";
+  readerLangAr.style.opacity = arDisabled ? "0.5" : "1";
+}
+
+function updateSelectedUI() {
+  const story = getStoryById(selectedStoryId);
+
+  // if story doesn't support Arabic but we are on ar, switch back to en
+  if (lang === "ar" && !(story.hasArabic && story.files.ar)) {
+    lang = "en";
+  }
+
+  const file = getActiveFile(story);
+
+  selectedTitle.textContent = story.title;
+  selectedSub.textContent = lang === "ar" ? "Arabic" : "English";
+
+  // Buttons
+  openPdfBtn.onclick = () => {
+    document.getElementById("read").scrollIntoView({ behavior: "smooth", block: "start" });
+    // Small delay so scroll feels natural
+    setTimeout(() => {
+      pdfFrame.focus();
+    }, 300);
+  };
+
+  downloadPdfBtn.href = file;
+  downloadPdfBtn.setAttribute("download", file);
+
+  // Reader links + iframe
+  openInNewTabLink.href = file;
+  downloadInReaderLink.href = file;
+  downloadInReaderLink.setAttribute("download", file);
+  pdfFrame.src = file;
+
+  updateLangButtons(story);
+
+  // highlight active card
+  document.querySelectorAll(".story-card").forEach((el) => {
+    el.classList.toggle("is-active", el.dataset.id === selectedStoryId);
+  });
+}
+
+function renderGrid() {
   storyGrid.innerHTML = "";
 
   STORIES.forEach((s) => {
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = "story-card" + (s.id === currentStory.id ? " is-selected" : "");
-    card.setAttribute("aria-label", `Select story: ${s.title}`);
+    const card = document.createElement("article");
+    card.className = "story-card";
+    card.dataset.id = s.id;
 
-    const tagClass = s.hasArabic ? "" : " is-single";
-    const pillsHtml = (s.pills || []).map((p) => `<span class="pill">${p}</span>`).join("");
+    const top = document.createElement("div");
+    top.className = "story-top";
 
-    card.innerHTML = `
-      <div class="story-top">
-        <h3 class="story-title">${escapeHtml(s.title)}</h3>
-        <span class="story-tag${tagClass}">${escapeHtml(s.tag)}</span>
-      </div>
-      <p class="story-desc">${escapeHtml(s.desc)}</p>
-      <div class="story-meta">${pillsHtml}</div>
-    `;
+    const title = document.createElement("h3");
+    title.className = "story-title";
+    title.textContent = s.title;
+
+    const tag = document.createElement("span");
+    tag.className = "story-tag";
+    tag.textContent = s.tag;
+
+    top.appendChild(title);
+    top.appendChild(tag);
+
+    const desc = document.createElement("p");
+    desc.className = "story-desc";
+    desc.textContent = s.desc;
+
+    const pills = document.createElement("div");
+    pills.className = "pills";
+    s.pills.forEach((p) => {
+      const pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = p;
+      pills.appendChild(pill);
+    });
+
+    card.appendChild(top);
+    card.appendChild(desc);
+    card.appendChild(pills);
 
     card.addEventListener("click", () => {
-      selectStory(s.id);
+      selectedStoryId = s.id;
+      updateSelectedUI();
+      // Move user to selected story panel area (nice UX)
+      document.querySelector(".hero-right").scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
     storyGrid.appendChild(card);
   });
-
-  if (statStories) statStories.textContent = String(STORIES.length);
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+function hookLanguageEvents() {
+  const setLang = (next) => {
+    lang = next;
+    updateSelectedUI();
+  };
 
-// Story selection + updates
-function selectStory(storyId) {
-  const next = STORIES.find((s) => s.id === storyId);
-  if (!next) return;
+  heroLangEn.addEventListener("click", () => setLang("en"));
+  heroLangAr.addEventListener("click", () => setLang("ar"));
+  readerLangEn.addEventListener("click", () => setLang("en"));
+  readerLangAr.addEventListener("click", () => setLang("ar"));
 
-  currentStory = next;
-  localStorage.setItem("owms_story", currentStory.id);
-
-  // If story doesn't have Arabic, force EN
-  if (!currentStory.hasArabic) {
-    currentLang = "en";
-    localStorage.setItem("owms_lang", currentLang);
-  }
-
-  applySelectionToUI();
-  renderStories();
-}
-
-function setLang(lang) {
-  if (lang !== "en" && lang !== "ar") return;
-
-  // Block AR if story doesn't support it
-  if (lang === "ar" && !currentStory.hasArabic) return;
-
-  currentLang = lang;
-  localStorage.setItem("owms_lang", currentLang);
-  applySelectionToUI();
-}
-
-function getActiveFile() {
-  const file =
-    currentLang === "ar" && currentStory.files.ar ? currentStory.files.ar : currentStory.files.en;
-  return file;
-}
-
-function applySelectionToUI() {
-  const file = getActiveFile();
-
-  // Selected panel
-  if (selectedTitleEl) selectedTitleEl.textContent = currentStory.title;
-  if (selectedSubEl) selectedSubEl.textContent = currentLang === "ar" ? "Arabic" : "English";
-
-  if (downloadPdfBtn) {
-    downloadPdfBtn.href = file;
-    downloadPdfBtn.setAttribute("download", "");
-  }
-
-  // Reader links + iframe
-  if (openInNewTabLink) openInNewTabLink.href = file;
-  if (downloadInReaderLink) {
-    downloadInReaderLink.href = file;
-    downloadInReaderLink.setAttribute("download", "");
-  }
-  if (pdfFrame) pdfFrame.src = file;
-
-  // Language toggle state (hero + reader)
-  syncLangButtons(heroLangEn, heroLangAr);
-  syncLangButtons(readerLangEn, readerLangAr);
-
-  // Disable AR buttons if not supported
-  const disableAr = !currentStory.hasArabic;
-  if (heroLangAr) heroLangAr.disabled = disableAr;
-  if (readerLangAr) readerLangAr.disabled = disableAr;
-
-  if (heroLangAr) heroLangAr.style.opacity = disableAr ? "0.45" : "1";
-  if (readerLangAr) readerLangAr.style.opacity = disableAr ? "0.45" : "1";
-}
-
-function syncLangButtons(enBtn, arBtn) {
-  if (!enBtn || !arBtn) return;
-  enBtn.classList.toggle("is-active", currentLang === "en");
-  arBtn.classList.toggle("is-active", currentLang === "ar");
-}
-
-// Actions
-if (openPdfBtn) {
-  openPdfBtn.addEventListener("click", () => {
-    // scroll to reader
-    const readSection = document.getElementById("read");
-    if (readSection) readSection.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
-
-if (scrollToReaderBtn) {
   scrollToReaderBtn.addEventListener("click", () => {
-    const shell = document.getElementById("readerShell");
-    if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("read").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 
-// Language listeners
-if (heroLangEn) heroLangEn.addEventListener("click", () => setLang("en"));
-if (heroLangAr) heroLangAr.addEventListener("click", () => setLang("ar"));
-if (readerLangEn) readerLangEn.addEventListener("click", () => setLang("en"));
-if (readerLangAr) readerLangAr.addEventListener("click", () => setLang("ar"));
-
-// Theme toggle
-function applyTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  if (themeIcon) themeIcon.textContent = theme === "light" ? "🌙" : "☀️";
+function hookTheme() {
+  themeBtn.addEventListener("click", () => {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    setTheme(isLight ? "dark" : "light");
+  });
 }
-function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme") || "dark";
-  const next = current === "dark" ? "light" : "dark";
-  applyTheme(next);
-  localStorage.setItem("owms_theme", next);
+
+function init() {
+  initTheme();
+  hookTheme();
+  renderGrid();
+  hookLanguageEvents();
+  updateSelectedUI();
 }
-if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 
-applyTheme(savedTheme || "dark");
-
-// Initial render
-renderStories();
-applySelectionToUI();
- Set year in footer
+document.addEventListener("DOMContentLoaded", init);
